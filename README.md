@@ -125,7 +125,19 @@ https://access.redhat.com/documentation/en-us/red_hat_data_grid/8.2/html/data_gr
 ## 전자정부프레임워크 3.10 simple homepage
 > https://www.egovframe.go.kr/home/main.do
 
+## maven pom.xml
+> 오픈소스 infinispan 버전 : "9.4.23.Final" <br>
+> Redhat JDG 버전 : "9.4.6.Final-redhat-00002" , redhat 에서 다운로드
+``` 
+		<dependency>
+			<groupId>org.infinispan</groupId>
+			<artifactId>infinispan-spring4-remote</artifactId>
+			<version>9.4.23.Final</version>
+		</dependency> 
+```
+
 ## Spring cacheManager
+> spring cacheManager xml 설정 적용 <br>
 > src/main/resources/egovframework/spring/com/context-cache.xml
 ```
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -145,6 +157,7 @@ https://access.redhat.com/documentation/en-us/red_hat_data_grid/8.2/html/data_gr
 </beans>
 ```
 
+> Datagrid 클러스터 접속 설정 적용 <br>
 > src/main/resources/egovframework/egovProps/hotrod-client.properties
 ```
 # List Infinispan servers by IP address or hostname at port 11222.
@@ -164,7 +177,7 @@ infinispan.spring.operation.read.timeout=500
 infinispan.spring.operation.read.timeout=700
 ```
 
-> Exception in JBoss <br>
+> JBoss EAP 7 사용시 에러 발생 : <br>
 > java.lang.NoClassDefFoundError: sun/reflect/ReflectionFactory
 > WEB-INF/jboss-deployment-structure.xml
 ```
@@ -181,7 +194,7 @@ infinispan.spring.operation.read.timeout=700
 </jboss-deployment-structure>
 ```
 
-# Cache 사용하기
+# 어플리케이션에 Cache 적용하기
 
 ## 1. 메인 Service 공지사항 Cache 추가
 > /simple/src/main/java/egovframework/let/cop/bbs/service/impl/EgovBBSManageService.java <BR>
