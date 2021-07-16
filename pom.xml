@@ -207,32 +207,23 @@
 			<artifactId>icu4j</artifactId>
 			<version>53.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.infinispan</groupId>
 			<artifactId>infinispan-spring4-remote</artifactId>
 			<version>9.4.23.Final</version>
 		</dependency>
-<!--   
-		<dependency>
-	        <groupId>org.infinispan</groupId>
-	        <artifactId>infinispan-core</artifactId>
-			<version>12.1.6.Final</version>
-    	</dependency>
-
-		<dependency>
-		    <groupId>org.infinispan</groupId>
-		    <artifactId>infinispan-spring5-remote</artifactId>
-		    <version>12.1.6.Final</version>
-		</dependency>
--->     
+		<!-- <dependency> <groupId>org.infinispan</groupId> <artifactId>infinispan-core</artifactId> 
+			<version>12.1.6.Final</version> </dependency> <dependency> <groupId>org.infinispan</groupId> 
+			<artifactId>infinispan-spring5-remote</artifactId> <version>12.1.6.Final</version> 
+			</dependency> -->
 
 		<dependency>
 			<groupId>org.springmodules</groupId>
 			<artifactId>spring-modules-validation</artifactId>
-    		<scope>system</scope>
-		    <version>0.9-eap7</version>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-modules-validation-0.9-eap7.jar</systemPath> 
+			<scope>system</scope>
+			<version>0.9-eap7</version>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-modules-validation-0.9-eap7.jar</systemPath>
 		</dependency>
 	</dependencies>
 
@@ -395,4 +386,50 @@
 			</plugin>
 		</plugins>
 	</reporting>
+
+	<profiles>
+		<profile>
+			<id>deployRemote</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.wildfly.plugins</groupId>
+						<artifactId>wildfly-maven-plugin</artifactId>
+						<version>2.0.2.Final</version>
+						<configuration>
+							<hostname>localhost</hostname>
+							<protocol>http-remoting</protocol>
+							<port>9990</port>
+							<username>admin</username>
+							<password>admin</password>
+							<jboss-home>/usr/local/jboss-eap-7.3</jboss-home>
+							<name>${project.build.finalName}.${project.packaging}</name>
+						</configuration>
+						<executions>
+							<!-- Undeploy the application on clean -->
+							<execution>
+								<id>undeploy</id>
+								<phase>clean</phase>
+								<goals>
+									<goal>undeploy</goal>
+								</goals>
+								<configuration>
+									<ignoreMissingDeployment>true</ignoreMissingDeployment>
+								</configuration>
+							</execution>
+
+							<!-- Deploy the application on install -->
+							<execution>
+								<id>deploy</id>
+								<phase>deploy</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
