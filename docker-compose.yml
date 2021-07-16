@@ -1,0 +1,59 @@
+---   
+version: "3.9"
+#--------------------------------------------------------------------------#
+#--------------------------------------------------------------------------#
+#              E G O V F R A M E W O R K  v3.10   # E X A M P L E          #
+#--------------------------------------------------------------------------#
+#--------------------------------------------------------------------------#
+services:
+    eap:
+        image: "nationminu/jboss-eap:7.3.0-standalone"
+        #build: ""./docker-build/eap"
+        environment:
+            - "TZ=Asia/Seoul"   
+            - "JAVA_OPTS=-Xms1024m -Xmx1024m -Djava.net.preferIPv4Stack=true -Dorg.jboss.as.logging.per-deployment=false"   
+        ports:
+            - "8080:8080"
+            - "9990:9990"
+
+    database:
+        image: mysql:5.7
+        ports:
+            - "3306:3306"
+        environment:
+            TZ: "Asia/Seoul"
+            MYSQL_ROOT_PASSWORD: egovframework
+            MYSQL_DATABASE: egov
+            MYSQL_USER: egov
+            MYSQL_PASSWORD: egov
+        command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8 --collation-server=utf8_general_ci    
+        volumes:
+            - ./DATABASE/db_data:/var/lib/mysql:rw
+            - ./DATABASE/mysql:/docker-entrypoint-initdb.d:rw
+
+    datagrid1:
+        image: "nationminu/rhdg-server:8.2" 
+        #build: ""./docker-build/datagrid"
+        environment:
+            - "TZ=Asia/Seoul"   
+            - "JAVA_OPTS=-Xms1024m -Xmx1024m -Dinfinispan.node.name=datagrid1 -Dinfinispan.cluster.name=docker-cluster -Djava.net.preferIPv4Stack=true"   
+        ports:
+            - "11222:11222"
+
+    datagrid2:
+        image: "nationminu/rhdg-server:8.2" 
+        #build: ""./docker-build/datagrid"
+        environment:
+            - "TZ=Asia/Seoul"   
+            - "JAVA_OPTS=-Xms1024m -Xmx1024m -Dinfinispan.node.name=datagrid2 -Dinfinispan.cluster.name=docker-cluster -Djava.net.preferIPv4Stack=true"   
+        ports:
+            - "11322:11222"            
+
+    datagrid3:
+        image: "nationminu/rhdg-server:8.2" 
+        #build: ""./docker-build/datagrid"
+        environment:
+            - "TZ=Asia/Seoul"   
+            - "JAVA_OPTS=-Xms1024m -Xmx1024m -Dinfinispan.node.name=datagrid3 -Dinfinispan.cluster.name=docker-cluster -Djava.net.preferIPv4Stack=true"   
+        ports:
+            - "11422:11222"                       
