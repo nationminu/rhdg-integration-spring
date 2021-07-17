@@ -162,13 +162,16 @@ https://access.redhat.com/documentation/en-us/red_hat_data_grid/8.2/html/data_gr
 > Datagrid 클러스터 접속 설정 적용 <br>
 > src/main/resources/egovframework/egovProps/hotrod-client.properties
 ```
-finispan servers by IP address or hostname at port 11222.
+# List of infinispan servers by IP address or hostname at port 11222.
 infinispan.client.hotrod.server_list=datagrid1:11222;datagrid2:11222;datagrid3:11222;
+
+# List of infinispan service by servicename at openshift.
+# infinispan.client.hotrod.server_list=infinispan.datagrid.svc.cluster.local:11222
 
 # Use BASIC client intelligence.
 infinispan.client.hotrod.client_intelligence=BASIC
 
-# Authentication
+# Authentication (comment when openshift)
 infinispan.client.hotrod.use_auth=true
 infinispan.client.hotrod.auth_username=admin
 infinispan.client.hotrod.auth_password=admin
