@@ -26,21 +26,23 @@
 ## docker-compose 실행
 
 ```bash
+> git clone https://github.com/nationminu/rhdg-integration-spring
+
 > docker-compose up -d
-Creating rhdv-integration-spring_datagrid3_1 ... done
-Creating rhdv-integration-spring_datagrid1_1 ... done
-Creating rhdv-integration-spring_database_1  ... done
-Creating rhdv-integration-spring_eap_1       ... done
-Creating rhdv-integration-spring_datagrid2_1 ... done
+Creating rhdg-integration-spring_datagrid3_1 ... done
+Creating rhdg-integration-spring_datagrid1_1 ... done
+Creating rhdg-integration-spring_database_1  ... done
+Creating rhdg-integration-spring_eap_1       ... done
+Creating rhdg-integration-spring_datagrid2_1 ... done
 
 > docker-compose ps
                Name                              Command               State                                              Ports                                            
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-rhdv-integration-spring_database_1    docker-entrypoint.sh --def ...   Up      0.0.0.0:3306->3306/tcp,:::3306->3306/tcp, 33060/tcp                                         
-rhdv-integration-spring_datagrid1_1   docker-entrypoint.sh             Up      0.0.0.0:11222->11222/tcp,:::11222->11222/tcp                                                
-rhdv-integration-spring_datagrid2_1   docker-entrypoint.sh             Up      0.0.0.0:11322->11222/tcp,:::11322->11222/tcp                                                
-rhdv-integration-spring_datagrid3_1   docker-entrypoint.sh             Up      0.0.0.0:11422->11222/tcp,:::11422->11222/tcp                                                
-rhdv-integration-spring_eap_1         docker-entrypoint.sh             Up      8009/tcp, 0.0.0.0:8080->8080/tcp,:::8080->8080/tcp, 0.0.0.0:9990->9990/tcp,:::9990->9990/tcp
+rhdg-integration-spring_database_1    docker-entrypoint.sh --def ...   Up      0.0.0.0:3306->3306/tcp,:::3306->3306/tcp, 33060/tcp                                         
+rhdg-integration-spring_datagrid1_1   docker-entrypoint.sh             Up      0.0.0.0:11222->11222/tcp,:::11222->11222/tcp                                                
+rhdg-integration-spring_datagrid2_1   docker-entrypoint.sh             Up      0.0.0.0:11322->11222/tcp,:::11322->11222/tcp                                                
+rhdg-integration-spring_datagrid3_1   docker-entrypoint.sh             Up      0.0.0.0:11422->11222/tcp,:::11422->11222/tcp                                                
+rhdg-integration-spring_eap_1         docker-entrypoint.sh             Up      8009/tcp, 0.0.0.0:8080->8080/tcp,:::8080->8080/tcp, 0.0.0.0:9990->9990/tcp,:::9990->9990/tcp
 
 docker-compose logs -f
 ```
@@ -128,7 +130,7 @@ https://access.redhat.com/documentation/en-us/red_hat_data_grid/8.2/html/data_gr
 ## maven pom.xml
 > 오픈소스 infinispan 버전 : "9.4.23.Final" <br>
 > Redhat JDG 버전 : "9.4.6.Final-redhat-00002" , redhat 에서 다운로드
-``` 
+```xml
 		<dependency>
 			<groupId>org.infinispan</groupId>
 			<artifactId>infinispan-spring4-remote</artifactId>
@@ -139,7 +141,7 @@ https://access.redhat.com/documentation/en-us/red_hat_data_grid/8.2/html/data_gr
 ## Spring cacheManager
 > spring cacheManager xml 설정 적용 <br>
 > src/main/resources/egovframework/spring/com/context-cache.xml
-```
+```xml
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:cache="http://www.springframework.org/schema/cache"
@@ -160,7 +162,7 @@ https://access.redhat.com/documentation/en-us/red_hat_data_grid/8.2/html/data_gr
 > Datagrid 클러스터 접속 설정 적용 <br>
 > src/main/resources/egovframework/egovProps/hotrod-client.properties
 ```
-# List Infinispan servers by IP address or hostname at port 11222.
+finispan servers by IP address or hostname at port 11222.
 infinispan.client.hotrod.server_list=datagrid1:11222;datagrid2:11222;datagrid3:11222;
 
 # Use BASIC client intelligence.
